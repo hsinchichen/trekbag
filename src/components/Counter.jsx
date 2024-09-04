@@ -1,7 +1,13 @@
-function Counter() {
+function Counter({ totalNumberOfItems, numberOfItemsPacked }) {
+  // const newItems = items.filter((item) => {
+  //   if (item.packed === true) {
+  //     return item;
+  //   }
+  // });
+
   return (
     <p>
-      <b>1</b> / 3 itmes packed
+      <b>{numberOfItemsPacked}</b> / {totalNumberOfItems} itmes packed
     </p>
   );
 }

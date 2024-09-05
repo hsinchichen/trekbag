@@ -1,8 +1,10 @@
 import ReactSelect from 'react-select';
 import EmptyView from './EmptyView';
-import { useState } from 'react';
+import { useContext, useMemo, useState } from 'react';
+import Item from './item';
+import { ItemsContext } from '../contexts/itemsContentProvider';
 
-function ItemList({ items, handleDelete, handleToggle }) {
+function ItemList() {
   const sortingOptions = [
     {
       label: 'Sort by default',
@@ -17,22 +19,23 @@ function ItemList({ items, handleDelete, handleToggle }) {
       value: 'unpacked',
     },
   ];
+  const { items } = useContext(ItemsContext);
 
   const [sorting, setSorting] = useState(sortingOptions[0]);
 
-  const sortedItems = [...items].sort((a, b) => {
-    if (sorting === 'packed') {
-      return b.packed - a.packed;
-    }
-
-    if (sorting === 'unpacked') {
-      return a.packed - b.packed;
-    }
-
-    return;
-  });
-
-  console.log(items);
+  const sortedItems = useMemo(() => {
+    const sorted = [...items];
+    sorted.sort((a, b) => {
+      if (sorting === 'packed') {
+        return b.packed - a.packed;
+      }
+      if (sorting === 'unpacked') {
+        return a.packed - b.packed;
+      }
+      return;
+    });
+    return sorted;
+  }, [items, sorting]);
 
   return (
     <>
@@ -49,33 +52,12 @@ function ItemList({ items, handleDelete, handleToggle }) {
               />
             </section>
             {sortedItems.map((item) => (
-              <Item
-                key={item.id}
-                item={item}
-                onDelete={handleDelete}
-                onToggle={handleToggle}
-              />
+              <Item key={item.id} item={item} />
             ))}
           </ul>
         </>
       )}
     </>
-  );
-}
-
-function Item({ item, onDelete, onToggle }) {
-  return (
-    <li className="item">
-      <label>
-        <input
-          type="checkbox"
-          checked={item.packed}
-          onChange={() => onToggle(item.id)}
-        />
-        {item.name}
-      </label>
-      <button onClick={() => onDelete(item.id)}>❌</button>
-    </li>
   );
 }
 

@@ -1,9 +1,7 @@
-function Counter({ totalNumberOfItems, numberOfItemsPacked }) {
-  // const newItems = items.filter((item) => {
-  //   if (item.packed === true) {
-  //     return item;
-  //   }
-  // });
+import { useItemsContexts } from '../Hooks/useItemsContexts';
+
+function Counter() {
+  const { totalNumberOfItems, numberOfItemsPacked } = useItemsContexts();
 
   return (
     <p>
@@ -13,3 +11,4 @@ function Counter({ totalNumberOfItems, numberOfItemsPacked }) {
 }
 
 export default Counter;
+  

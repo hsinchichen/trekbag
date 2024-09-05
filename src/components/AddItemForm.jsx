@@ -1,10 +1,12 @@
 // import { useState } from 'react';
 
-import { useRef, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
+import { ItemsContext } from '../contexts/itemsContentProvider';
 
-function AddItemForm({ onAddItem }) {
+function AddItemForm() {
   const [value, setValue] = useState('');
   const inputRef = useRef();
+  const { handleAddItem } = useContext(ItemsContext);
 
   function onSubmit(e) {
     e.preventDefault();
@@ -13,7 +15,7 @@ function AddItemForm({ onAddItem }) {
       return;
     }
 
-    onAddItem(value);
+    handleAddItem(value);
     setValue('');
   }
 
